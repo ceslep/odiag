@@ -1,11 +1,9 @@
 <script lang="ts">
-	import VerFotos from './VerFotos.svelte';
+    import VerFotos from "./VerFotos.svelte";
     import { onMount } from "svelte";
-    import { urlProcessImages } from "../Stores.js";
-    import {
-      Spinner       
-    } from "sveltestrap";
+    import { urlProcessImages,porcentajeStore } from "../Stores.js";
     
+    import Loading from "./Loading.svelte";
 
     export let path: string;
     export let dir: string;
@@ -27,16 +25,24 @@
     });
 </script>
 
-<div class="d-flex justify-content-center align-items-center flex-wrap vh-85 pt-2">
+
     {#await promiseImagenes}
-    <Spinner
-    color="secondary"
-    size="lg"
-    style="width: 5rem; height: 5rem;"
-  />
+        <div class="d-flex divInicio justify-content-center align-items-center">
+            <Loading porcentaje={$porcentajeStore}></Loading>
+        </div>
     {:then imagenes}
-        {#each imagenes as {src},i}
+    <div
+    class="d-flex justify-content-center align-items-center flex-wrap vh-85 pt-2"
+>
+        {#each imagenes as { src }, i}
             <VerFotos {src} />
         {/each}
+    </div>
     {/await}
-</div>
+
+
+<style>
+    .divInicio {
+        height: 80vmax;
+    }
+</style>

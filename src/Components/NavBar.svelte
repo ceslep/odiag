@@ -14,8 +14,9 @@
         DropdownMenu,
         DropdownItem,
     } from "sveltestrap";
-
+    import {onDestroy} from "svelte";
     import { PersonCircle } from "svelte-bootstrap-icons";
+    import { session } from '../Stores.js';
     
 
     let isOpen = false;
@@ -24,7 +25,18 @@
         isOpen = event.detail.isOpen;
     }
 
+    let estado:any;
+
+    
+    let unSubscribe=session.subscribe(value=>estado=value);
    
+    
+   onDestroy(()=>{
+       unSubscribe();
+    
+    });
+
+   $:console.log(estado);
 </script>
 
 <Navbar color="info" light expand="md" class="sticky-top">
@@ -33,7 +45,13 @@
     <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
         <Nav class="ms-auto" navbar>
             <NavItem>
-                <a href="/login" class="login" use:link> Iniciar sesión <PersonCircle/></a>
+                <a href="/login" class="login" use:link> 
+                    {estado.text}
+                    {#if estado.user!=""}
+                    <br/><small>{estado.user}</small>
+                    {/if}
+                    <PersonCircle/>
+                </a>
             </NavItem>
         </Nav>
     </Collapse>

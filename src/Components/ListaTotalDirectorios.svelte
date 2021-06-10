@@ -28,10 +28,20 @@
 <h1>Listado de Carpetas</h1>
 <div class="d-flex justify-content-center align-items-center">
     {#await PromiseDirectorios}
+    
+    <div class="divInicio">
         <Spinner size="md" type="grow" />
+    </div>
+
     {:then carpetas}
         {#each carpetas as { path,directorio }, i}
             <ListaDirectorios {path} {directorio}  />
         {/each}
     {/await}
 </div>
+
+<style>
+    .divInicio{
+        height: 80vmax;
+    }
+</style>

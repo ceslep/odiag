@@ -15,7 +15,7 @@
 
     import { navigate } from "svelte-routing";
 
-    import { usuario } from "../Stores.js";
+    import { usuario, session } from "../Stores.js";
     import { onDestroy } from "svelte";
     import Swal from "sweetalert2";
     import { fade } from "svelte/transition";
@@ -30,15 +30,23 @@
         usuarioLegal = value;
     });
 
-    onDestroy(unsubscribe);
+    let estado;
 
-   
+    let unSubscribeSession=session.subscribe(value=>estado=value);
+
+    onDestroy(()=>{
+        unsubscribe();
+        unSubscribeSession();
+    });
 
     const ingresar = async () => {
-        if (!(
-            login.usuario === usuarioLegal.usuario &&
-            login.contrasena === usuarioLegal.contrasena
-        ))
+        if (
+            !(
+                login.usuario === usuarioLegal.usuario &&
+                login.contrasena === usuarioLegal.contrasena
+            )
+        ) 
+           
             Swal.fire({
                 icon: "success",
                 title: "Ha ingresado Correctamente",
@@ -50,8 +58,11 @@
                     popup: "animate__animated animate__fadeOutUp",
                 },
             });
-            else
+         else {
+            session.iniciar(login.usuario);
+            $usuario.usuario=login.usuario;
             navigate("/listatotaldirectorios", { replace: true });
+         }
     };
 
     const cpr = `OrthoDiagnosticar ` + new Date().getFullYear();
@@ -59,7 +70,7 @@
 
 <div
     transition:fade
-    class="container d-flex justify-content-center align-items-center pt-5"
+    class="d-flex justify-content-center align-items-center divInicio"
 >
     <Card class="mb-3">
         <CardHeader>
@@ -90,5 +101,9 @@
     </Card>
 </div>
 
+
 <style>
+    .divInicio{
+        height: 80vmax;
+    }
 </style>
