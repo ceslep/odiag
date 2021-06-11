@@ -9,7 +9,7 @@
   } from "sveltestrap";
 
   import {onMount} from "svelte";
-  import { CloudDownload, CardImage } from "svelte-bootstrap-icons";
+  import { CloudDownload, CardImage, WindowSidebar } from "svelte-bootstrap-icons";
 
   import Swal from "sweetalert2";
   import { navigate } from "svelte-routing";
@@ -17,8 +17,15 @@
   export let src;
 
  let Width:any;
+ const height=(width:number):number=>{return Math.round(width*1.5);}
   onMount(()=>{
+    
     Width=`${window.innerWidth}px`;
+    if (window.innerWidth>1000) styleWidth=`width:200px;height:${height(200)}px`;
+    else
+    if ((window.innerWidth>600)&&(window.innerWidth<=1000)) styleWidth=`width:400px;height:${height(400)}px`;
+    else
+    styleWidth=`width:100%;height:${height(0.8*window.innerWidth)}px`;
   });
 
   $:console.log(Width);
@@ -36,9 +43,12 @@
       confirmButtonAriaLabel: "Thumbs up, great!",
     });
   };
+
+  let styleWidth:string="";
+  
 </script>
 
-<Card class="mb-3 mb-3 mx-2" style="width:200px;height:300px;">
+<Card class="mb-3 mb-3 mx-2" style={styleWidth} >
   <CardHeader>
     <CardTitle class="d-flex justify-content-center align-items-center"
       ><Button
@@ -57,3 +67,6 @@
   <CardFooter><Button block>Descargar <CloudDownload /></Button></CardFooter>
 </Card>
 
+<style>
+  
+  </style>

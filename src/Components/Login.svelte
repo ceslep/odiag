@@ -104,6 +104,6 @@
 
 <style>
     .divInicio{
-        height: 80vmax;
+        height: 80vh;
     }
 </style>

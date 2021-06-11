@@ -4,7 +4,7 @@
     Progress,
   } from "sveltestrap";
 
-  import {porcentajeStore} from "../Stores.js";
+  import {urlProcessAssets,porcentajeStore} from "../Stores.js";
   import { onMount,onDestroy,afterUpdate } from 'svelte';
 
     export let porcentaje:number;
@@ -22,19 +22,17 @@
   afterUpdate(() => {
 	
 	});
+
+  let loadingImg=`${$urlProcessAssets}loading.gif`;
 </script>
 
 
 <div class="text-center">
-    <Spinner
-      color="secondary"
-      size="lg"
-      style="width: 5rem; height: 5rem;"
-    />
-    <br />
+    
+    
+    <img src={loadingImg} alt="" class="img-fluid" width="25%" />
     <h4>Cargando...</h4>
-    <img src="./assets/onedrive.png" alt="" class="img-fluid" width="25%" />
-    <h6>moyaortodoncia@outlook.com</h6>
+    <h6>OrthoDiagnosticar</h6>
    
     <Progress animated striped color="warning" value={$porcentajeStore} max={100}>{$porcentajeStore}&nbsp;%</Progress>
   </div>

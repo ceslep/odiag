@@ -36,5 +36,8 @@ $fileList = glob("*.*", GLOB_BRACE);
          $files[]=array("directory"=>$path,"imageFile"=>$filename,"src"=>imgto64($path,$filename),"imageFileFull"=>substr($filename,1));
     }
 	}
-echo json_encode($files);
+	$files=json_encode($files);
+			header('Content-Length: '.strlen($files));	
+			echo $files;
+
 ?>

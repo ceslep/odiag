@@ -2,6 +2,7 @@
     import VerFotos from "./VerFotos.svelte";
     import { onMount } from "svelte";
     import { urlProcessImages,porcentajeStore } from "../Stores.js";
+    import {Progress} from "../Utils.js";
     
     import Loading from "./Loading.svelte";
 
@@ -18,11 +19,16 @@
             headers: { "Content-Type": "application/json" },
             mode: "cors",
         });
-        return await response.json();
+        let progreso = new Progress(response);
+        return await progreso.progreso();
     };
+
     onMount(() => {
+        porcentajeStore.set(0);
         promiseImagenes = getImagenes();
     });
+
+   
 </script>
 
 
@@ -43,6 +49,6 @@
 
 <style>
     .divInicio {
-        height: 80vmax;
+        height: 80vh;
     }
 </style>

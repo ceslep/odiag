@@ -9,6 +9,7 @@ export const cliente=writable('42759761');
 export const porcentajeStore = writable(0);
 
 export const urlProcessImages = readable("http://192.168.100.10/odiag/php/");
+export const urlProcessAssets = readable("http://192.168.100.10/odiag/assets/");
 
 function createSession() {
 	const { subscribe, set } = writable({text:'Iniciar Sesión',user:''});
